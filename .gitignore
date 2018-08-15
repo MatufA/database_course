@@ -22,5 +22,9 @@
 #bin file
 EX2/bin/
 
+#intelij
+EX2/.idea
+EX2/EX02.iml
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
