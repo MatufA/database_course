@@ -85,19 +85,25 @@ public class DatabaseFunction{
                 Statement stmt = conn.createStatement()) {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(Queries.SELECT_WAITING_PATIENTS_BY_TIME);
-            int numOfColumns = rs.getMetaData().getColumnCount();
+            toString(rs);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	String toString(ResultSet rs) {
+		try {
+			int numOfColumns = rs.getMetaData().getColumnCount();
             while (rs.next()) {
             	for (int col = 1; col <= numOfColumns; col++) {
             		System.out.print(rs.getString(col) + " ");
             		}
             	System.out.println();
             }
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return " ";
 	}
-	
-	
 }
 		
