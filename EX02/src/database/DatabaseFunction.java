@@ -15,9 +15,10 @@ public class DatabaseFunction{
 	private final String password = "yehuda123";
 
 	public DatabaseFunction(){
+		String url = "jdbc:mysql://localhost:3306/?allowPublicKeyRetrieval=true&useSSL=false";
 		try (Connection conn = DriverManager.getConnection(url, user, password);
                 Statement stmt = conn.createStatement()) {
-            // create a new table
+            // create a new DataBase
             stmt.execute(Queries.CREATE_DATABASE);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -29,6 +30,8 @@ public class DatabaseFunction{
         // SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
+/*            String sql = "Alter table Queue_Reserved Add primary key (doctor_id)"; //declare PK
+            stmt.executeUpdate(sql);*/
             // create a new table
             stmt.execute(Queries.CREATE_QUEUE_RESERVED_TABLE);
         } catch (SQLException e) {
@@ -40,6 +43,8 @@ public class DatabaseFunction{
 		// SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
+/*            String sql = "Alter table Doctors Add primary key (doctor_id)"; //declare PK
+            stmt.executeUpdate(sql);*/
             // create a new table
             stmt.execute(Queries.CREATE_DOCTOR_TABLE);
         } catch (SQLException e) {
@@ -51,6 +56,9 @@ public class DatabaseFunction{
 		// SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
+        	
+       /*     String sql = "Alter table Patients Add primary key (patient_id)"; //declare PK
+            stmt.executeUpdate(sql);*/
             // create a new table
             stmt.execute(Queries.CREATE_PATIENTS_TABLE);
         } catch (SQLException e) {
@@ -62,11 +70,34 @@ public class DatabaseFunction{
 		// SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
+            /*String sql = "Alter table Queue Add primary key (queue_id)"; //declare PK
+            stmt.executeUpdate(sql);*/
             // create a new table
             stmt.execute(Queries.CREATE_QUEUE_TABLE);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 	}
+	
+	public void waitingListByTime(){
+		// SQL statement for creating a new table        
+        try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
+                Statement stmt = conn.createStatement()) {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(Queries.SELECT_WAITING_PATIENTS_BY_TIME);
+            int numOfColumns = rs.getMetaData().getColumnCount();
+            while (rs.next()) {
+            	for (int col = 1; col <= numOfColumns; col++) {
+            		System.out.print(rs.getString(col) + " ");
+            		}
+            	System.out.println();
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	
 }
 		
