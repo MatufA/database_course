@@ -28,13 +28,11 @@ public class Queries {
 							+ "time DATETIME NOT NULL);\n";
 	
 	//Select statement
-	public static String SELECT_ALL = " ";
-	
 	public static String SELECT_WAITING_PATIENTS_BY_TIME = "SELECT p_f_name, p_l_name, queue_time FROM Patients\n"
 			+ "INNER JOIN Queue_Reserved ON (Patients.patient_id = Queue_Reserved.patient_id)\n"
 			+ "ORDER BY queue_time;";
 										
-	public static String SELECT_ALL_VIEW_DOCTOR_ASSOSIETES = " ";
+	public static String SELECT_ALL_VIEW_DOCTOR_RELATIVES = "SELECT * FROM doctor_relatives;";
 	
 	//Update statement
 	
@@ -42,10 +40,14 @@ public class Queries {
 	public static String DELETE_QUEUE = " ";
 	
 	//Trigger statement
-	public static String TRIGGER_MANAGE_QUEUE = " ";
+	public static String TRIGGER_DELETE_QUEUE_RESERVED = "CREATE TRIGGER delete_queue_reserved AFTER INSERT ON Queue\n" +
+            "  FOR EACH ROW\n" +
+            "  DELETE FROM Queue_Reserved WHERE queue_id=NEW.queue_id;";
 	
 	//View statement
-	public static String VIEW_DOCTOR_ASSOSIETES = " ";
+	public static String VIEW_DOCTOR_RELATIVES = "CREATE VIEW doctor_relatives AS\n" +
+            "  SELECT Patients.p_f_name, Patients.p_l_name FROM Patients\n" +
+            "  INNER JOIN Doctors ON (Doctors.d_l_name=Patients.p_l_name);";
 	
 	//Procedure statement
 	public static String UPDATE_QUEUE_PROCEDURE = "create procedure update_queue() begin select * from Queue; end";
