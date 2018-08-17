@@ -1,11 +1,13 @@
 package database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 import database.Queries;
 
@@ -89,6 +91,36 @@ public class DatabaseFunction{
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+	}
+	
+	public void updateQueue() {
+		Scanner fName = new Scanner( System.in );
+		System.out.println("Insert First name of patient: ");
+		String p_f_name_input = fName.nextLine();
+		Scanner lName = new Scanner( System.in );
+		System.out.println("Insert Last name of patient: ");
+		String p_l_name_input = lName.nextLine();
+		System.out.println( "Patient name is " + p_f_name_input + " " + p_l_name_input );
+		
+		try {
+			Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
+			String dpProcedure = "drop procedure if exists update_queue"; //drop procedure if exists
+			Statement st = conn.createStatement();
+			st.execute(dpProcedure);
+			
+			/*String ctprocedure = "create procedure update_queue() begin select time from Queue where queue_id = 1; end";
+			Statement st2 = conn.createStatement();
+			st.execute(ctprocedure);*/
+			
+			st.execute(Queries.UPDATE_QUEUE_PROCEDURE);
+			CallableStatement cs = conn.prepareCall("{call update_queue()}");
+			ResultSet rs = cs.executeQuery();
+			toString(rs);
+			
+		}
+		catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
 	}
 	
 	String toString(ResultSet rs) {

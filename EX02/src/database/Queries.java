@@ -24,10 +24,12 @@ public class Queries {
 							+ "gender VARCHAR(20) NOT NULL);\n";
 	
 	public static String CREATE_QUEUE_TABLE =  "CREATE TABLE IF NOT EXISTS Queue (\n"
-							+ "queue_id INT NOT NULL primary key);\n";
+							+ "queue_id INT NOT NULL primary key,\n"
+							+ "time DATETIME NOT NULL);\n";
 	
 	//Select statement
 	public static String SELECT_ALL = " ";
+	
 	public static String SELECT_WAITING_PATIENTS_BY_TIME = "SELECT p_f_name, p_l_name, queue_time FROM Patients\n"
 			+ "INNER JOIN Queue_Reserved ON (Patients.patient_id = Queue_Reserved.patient_id)\n"
 			+ "ORDER BY queue_time;";
@@ -44,4 +46,9 @@ public class Queries {
 	
 	//View statement
 	public static String VIEW_DOCTOR_ASSOSIETES = " ";
+	
+	//Procedure statement
+	public static String UPDATE_QUEUE_PROCEDURE = "create procedure update_queue() begin select * from Queue; end";
+
+
 }
