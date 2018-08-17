@@ -20,7 +20,8 @@
 *.rar
 
 #bin file
-EX2/bin/
+EX2/bin
+EX2/out
 
 #intelij
 EX2/.idea
