@@ -20,12 +20,12 @@
 *.rar
 
 #bin file
-EX2/bin
-EX2/out
+/bin/
+/out/
 
 #intelij
-EX2/.idea
-EX2/EX02.iml
+/.idea/
+*.iml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
