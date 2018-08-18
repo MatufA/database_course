@@ -1,19 +1,12 @@
 package database;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class DatabaseFunction{
 	private final String url = "jdbc:mysql://localhost:3306/mithalim?allowPublicKeyRetrieval=true&useSSL=false";
 	private final String user = "root";
-	private final String password = "yehuda123";
+	private final String password = "zubur1";
 
 
 	public DatabaseFunction(){
@@ -37,8 +30,8 @@ public class DatabaseFunction{
     }
 	
 	
-	public void createQueueReserved() {
-        // SQL statement for creating a new table        
+	private void createQueueReserved() {
+        // SQL statement for creating a new table
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
 /*            String sql = "Alter table Queue_Reserved Add primary key (doctor_id)"; //declare PK
@@ -50,7 +43,7 @@ public class DatabaseFunction{
         }
 	}
 	
-	public void createDoctorTable(){
+	private void createDoctorTable(){
 		// SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
@@ -63,7 +56,7 @@ public class DatabaseFunction{
         }
 	}
 
-	public void createPatientsTable(){
+	private void createPatientsTable(){
 		// SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
@@ -77,7 +70,7 @@ public class DatabaseFunction{
         }
 	}
 	
-	public void createQueueTable(){
+	private void createQueueTable(){
 		// SQL statement for creating a new table        
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
                 Statement stmt = conn.createStatement()) {
@@ -90,7 +83,7 @@ public class DatabaseFunction{
         }
 	}
 
-    public void createDoctorRelativesView(){
+    private void createDoctorRelativesView(){
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
              Statement stmt = conn.createStatement()) {
             stmt.execute(Queries.VIEW_DOCTOR_RELATIVES);
@@ -99,7 +92,7 @@ public class DatabaseFunction{
         }
     }
 
-    public void createDeleteQueueReservedTrigger(){
+    private void createDeleteQueueReservedTrigger(){
         try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
              Statement stmt = conn.createStatement()) {
             stmt.execute(Queries.TRIGGER_DELETE_QUEUE_RESERVED);
@@ -121,6 +114,30 @@ public class DatabaseFunction{
         }
         return rs;
 	}
+
+	public void insertPatients(String pname, String plast, String gender){
+        try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
+             PreparedStatement stmt = conn.prepareStatement(Queries.INSERT_PATIENTS)) {
+            stmt.setString(1,pname);
+            stmt.setString(2,plast);
+            stmt.setString(3,gender);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertDoctors(String dname, String dlast, String dtype){
+        try (Connection conn = DriverManager.getConnection(this.url, this.user, this.password);
+             PreparedStatement stmt = conn.prepareStatement(Queries.INSERT_DOCTORS)) {
+            stmt.setString(1,dname);
+            stmt.setString(2,dlast);
+            stmt.setString(3,dtype);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 	
 	public void updateQueue() {
 		Scanner fName = new Scanner( System.in );
@@ -164,7 +181,6 @@ public class DatabaseFunction{
         return null;
     }
 
-	@NotNull
     public static String printResult(ResultSet rs) {
 	    if (rs==null) return " ";
 		try {

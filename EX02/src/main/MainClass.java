@@ -15,6 +15,4 @@ public class MainClass {
         rs = a.doctorRelativesView();
         a.printResult(rs);
     }
-
-
 }

@@ -33,6 +33,13 @@ public class Queries {
 			+ "ORDER BY queue_time;";
 										
 	public static String SELECT_ALL_VIEW_DOCTOR_RELATIVES = "SELECT * FROM doctor_relatives;";
+
+	//Insert statement
+    public static String INSERT_PATIENTS = "INSERT INTO Patients (p_f_name, p_l_name, gender)\n" +
+            "VALUES (?, ?, ?);";
+
+    public static String INSERT_DOCTORS = "INSERT INTO Doctors (d_f_name, d_l_name, doctor_type)\n" +
+            "VALUES (?, ?, ?);";
 	
 	//Update statement
 	
@@ -45,7 +52,7 @@ public class Queries {
             "  DELETE FROM Queue_Reserved WHERE queue_id=NEW.queue_id;";
 	
 	//View statement
-	public static String VIEW_DOCTOR_RELATIVES = "CREATE VIEW doctor_relatives AS\n" +
+	public static String VIEW_DOCTOR_RELATIVES = "CREATE OR REPLACE VIEW IF NOT EXISTS doctor_relatives AS\n" +
             "  SELECT Patients.p_f_name, Patients.p_l_name FROM Patients\n" +
             "  INNER JOIN Doctors ON (Doctors.d_l_name=Patients.p_l_name);";
 	
